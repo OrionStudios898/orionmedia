@@ -406,6 +406,7 @@ footer{padding:44px 64px;border-top:1px solid var(--border);background:var(--whi
 
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script>window.addEventListener("load",function(){emailjs.init({publicKey:"yOaEY9AGqNOauRIO1"});});</script>
 </head>
 <body>
 <div class="cur" id="c"></div>
@@ -1191,21 +1192,11 @@ footer{padding:44px 64px;border-top:1px solid var(--border);background:var(--whi
          1. Go to https://elfsight.com/instagram-feed-widget/
          2. Sign up free, connect @orionmediamtl
          3. Copy the widget code and replace the div below -->
-    <div id="ig-feed-container">
-      <div class="ig-setup">
-        <h4>Connect Your Instagram Feed</h4>
-        <p>
-          To display your last 8 posts from <strong>@orionmediamtl</strong>, follow these 2 steps:
-        </p>
-        <p>
-          <strong>Step 1:</strong> Go to <a href="https://elfsight.com/instagram-feed-widget/" target="_blank">elfsight.com</a> → Sign up free → Create widget → Connect <code>@orionmediamtl</code> → Copy the embed code.
-        </p>
-        <p>
-          <strong>Step 2:</strong> On GitHub, open <code>index.html</code> → Find the line <code>id="ig-feed-container"</code> → Replace this entire setup div with the Elfsight script tag.
-        </p>
-        <p style="color:var(--gold);font-weight:600;">Takes 5 minutes. No developer needed.</p>
+          <div id="ig-feed-container">
+        <!-- Elfsight Instagram Feed | @orionmediamtl -->
+        <script src="https://elfsightcdn.com/platform.js" async></script>
+        <div class="elfsight-app-36020295-67a8-4fb7-b280-0f65cd6b4281" data-elfsight-app-lazy></div>
       </div>
-    </div>
   </div>
 </section>
 
@@ -1245,9 +1236,9 @@ footer{padding:44px 64px;border-top:1px solid var(--border);background:var(--whi
 // 4. Get your PUBLIC_KEY from Account → API Keys
 // 5. Replace the 3 values below
 
-var EMAILJS_SERVICE_ID  = 'YOUR_SERVICE_ID';   // e.g. 'service_abc123'
-var EMAILJS_TEMPLATE_ID = 'YOUR_TEMPLATE_ID';  // e.g. 'template_xyz789'
-var EMAILJS_PUBLIC_KEY  = 'YOUR_PUBLIC_KEY';   // e.g. 'abcDEFghiJKL'
+var EMAILJS_SERVICE_ID  = 'service_7ffqyf9';
+var EMAILJS_TEMPLATE_ID = 'template_zxtuct8';
+var EMAILJS_PUBLIC_KEY  = 'yOaEY9AGqNOauRIO1';
 
 function openBooking(btn) {
   var overlay = document.getElementById('bookingOverlay');
