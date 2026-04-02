@@ -404,6 +404,22 @@ footer{padding:44px 64px;border-top:1px solid var(--border);background:var(--whi
 @media(max-width:1100px){.team-grid{grid-template-columns:1fr 1fr;}}
 @media(max-width:600px){.team-grid{grid-template-columns:1fr;}}
 
+
+/* ─── BOOKING PACKAGES STRIP ─── */
+.bm-packages{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:24px;}
+.bm-pkg{background:var(--off);padding:14px 16px;border:1px solid var(--border);border-top:2px solid var(--border);}
+.bm-pkg-featured{background:var(--ink);border-color:var(--ink);border-top-color:var(--gold);}
+.bm-pkg-badge{font-family:var(--mono);font-size:8px;letter-spacing:.15em;text-transform:uppercase;background:var(--gold);color:var(--ink);padding:2px 8px;display:inline-block;margin-bottom:6px;font-weight:700;}
+.bm-pkg-name{font-family:var(--display);font-size:13px;font-weight:700;color:var(--ink);margin-bottom:3px;}
+.bm-pkg-featured .bm-pkg-name{color:#fff;}
+.bm-pkg-price{font-family:var(--display);font-size:20px;font-weight:700;color:var(--ink);line-height:1;margin-bottom:5px;}
+.bm-pkg-price span{font-family:var(--mono);font-size:10px;font-weight:400;color:var(--muted);}
+.bm-pkg-featured .bm-pkg-price{color:var(--gold2);}
+.bm-pkg-featured .bm-pkg-price span{color:rgba(255,255,255,.3);}
+.bm-pkg-items{font-size:10px;line-height:1.65;color:var(--muted);}
+.bm-pkg-featured .bm-pkg-items{color:rgba(255,255,255,.42);}
+@media(max-width:640px){.bm-packages{grid-template-columns:1fr;}}
+
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <script>window.addEventListener("load",function(){emailjs.init({publicKey:"yOaEY9AGqNOauRIO1"});});</script>
@@ -424,7 +440,7 @@ footer{padding:44px 64px;border-top:1px solid var(--border);background:var(--whi
     <li><a href="#instagram">Instagram</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
-  <a href="#contact" class="nav-btn">Book a Quarter</a>
+  <a href="#" onclick="openBooking(null);return false;" class="nav-btn">Book a Quarter</a>
 </nav>
 
 <!-- HERO -->
@@ -982,7 +998,7 @@ footer{padding:44px 64px;border-top:1px solid var(--border);background:var(--whi
             <li>13-week content calendar delivered</li>
             <li>2 revision rounds per deliverable</li>
           </ul>
-          <button onclick="openBooking(this)" class="pkg-cta" data-track="">Reserve This Track</button>
+          <button onclick="openBooking(this)" class="pkg-cta" data-track="Corporate Production — $2,800/quarter">Reserve This Track</button>
         </div>
       </div>
       <div class="pkg feat">
@@ -1006,7 +1022,7 @@ footer{padding:44px 64px;border-top:1px solid var(--border);background:var(--whi
             <li>13-week paid content calendar</li>
             <li>Full quarterly performance brief</li>
           </ul>
-          <button onclick="openBooking(this)" class="pkg-cta" data-track="">Reserve This Track</button>
+          <button onclick="openBooking(this)" class="pkg-cta" data-track="Commercial & Ad Content — $4,500/quarter">Reserve This Track</button>
         </div>
       </div>
       <div class="pkg">
@@ -1028,7 +1044,7 @@ footer{padding:44px 64px;border-top:1px solid var(--border);background:var(--whi
             <li>13-week content calendar + post briefs</li>
             <li>Captions, hooks &amp; hashtag sets</li>
           </ul>
-          <button onclick="openBooking(this)" class="pkg-cta" data-track="">Reserve This Track</button>
+          <button onclick="openBooking(this)" class="pkg-cta" data-track="Creator Package — $1,900/quarter">Reserve This Track</button>
         </div>
       </div>
     </div>
@@ -1378,4 +1394,184 @@ function openLb(item){
   document.getElementById('lbTitle').textContent=item.dataset.title;
   document.getElementById('lbClient').textContent=item.dataset.client;
   document.getElementById('lbDesc').textContent=item.dataset.desc;
-  document.getElementById('lbSvc').textContent=
+  document.getElementById('lbSvc').textContent=item.dataset.service;
+  lb.classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeLb(){lb.classList.remove('open');document.body.style.overflow='';}
+document.querySelectorAll('.port-item').forEach(function(item){item.addEventListener('click',function(){openLb(item);});});
+document.getElementById('lbClose').addEventListener('click',closeLb);
+document.getElementById('lbBd').addEventListener('click',closeLb);
+document.addEventListener('keydown',function(e){if(e.key==='Escape')closeLb();});
+
+// ─── BOOKING MODAL ───
+function openBooking(btn) {
+  var overlay = document.getElementById('bookingOverlay');
+  if (!overlay) return;
+  var form = document.getElementById('bookingForm');
+  if (form) form.reset();
+  document.getElementById('bmBody').style.display = 'block';
+  document.getElementById('bmSuccess').style.display = 'none';
+  if (btn && btn.dataset && btn.dataset.track && btn.dataset.track !== '') {
+    var sel = document.getElementById('bmTrackSelect');
+    if (sel) {
+      for (var i = 0; i < sel.options.length; i++) {
+        if (sel.options[i].value === btn.dataset.track) { sel.selectedIndex = i; break; }
+      }
+    }
+  }
+  overlay.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeBooking() {
+  var overlay = document.getElementById('bookingOverlay');
+  if (overlay) overlay.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  var overlay = document.getElementById('bookingOverlay');
+  if (overlay) {
+    overlay.addEventListener('click', function(e) {
+      if (e.target === overlay) closeBooking();
+    });
+  }
+});
+
+document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeBooking(); });
+
+function submitBooking(e) {
+  e.preventDefault();
+  var btn = document.getElementById('bmSubmit');
+  var form = document.getElementById('bookingForm');
+  btn.disabled = true;
+  btn.textContent = 'Sending...';
+  var params = {
+    first_name: form.first_name.value,
+    last_name:  form.last_name.value,
+    email:      form.email.value,
+    phone:      form.phone.value || 'Not provided',
+    company:    form.company.value,
+    track:      form.track.value,
+    quarter:    form.quarter.value,
+    message:    form.message.value || 'No message provided',
+    reply_to:   form.email.value,
+    to_email:   'orioncontact8@gmail.com'
+  };
+  if (typeof emailjs !== 'undefined') {
+    emailjs.send('service_7ffqyf9', 'template_zxtuct8', params).then(
+      function() {
+        document.getElementById('bmBody').style.display = 'none';
+        document.getElementById('bmSuccess').style.display = 'block';
+        btn.disabled = false;
+        btn.textContent = 'Send My Brief →';
+      },
+      function() {
+        var s = encodeURIComponent('New Brief: ' + params.track + ' — ' + params.company);
+        var b = encodeURIComponent('Name: ' + params.first_name + ' ' + params.last_name + '\nEmail: ' + params.email + '\nPhone: ' + params.phone + '\nCompany: ' + params.company + '\nTrack: ' + params.track + '\nQuarter: ' + params.quarter + '\n\nMessage:\n' + params.message);
+        window.location.href = 'mailto:orioncontact8@gmail.com?subject=' + s + '&body=' + b;
+        btn.disabled = false; btn.textContent = 'Send My Brief →';
+      }
+    );
+  } else {
+    var s = encodeURIComponent('New Brief: ' + params.track + ' — ' + params.company);
+    var b = encodeURIComponent('Name: ' + params.first_name + ' ' + params.last_name + '\nEmail: ' + params.email + '\nPhone: ' + params.phone + '\nCompany: ' + params.company + '\nTrack: ' + params.track + '\nQuarter: ' + params.quarter + '\n\nMessage:\n' + params.message);
+    window.location.href = 'mailto:orioncontact8@gmail.com?subject=' + s + '&body=' + b;
+    btn.disabled = false; btn.textContent = 'Send My Brief →';
+  }
+}
+</script>
+
+<!-- BOOKING MODAL -->
+<div class="booking-overlay" id="bookingOverlay">
+  <div class="booking-modal">
+    <div class="bm-header">
+      <div class="bm-title">Book Your Production Slot</div>
+      <button class="bm-close" onclick="closeBooking()">&#x2715;</button>
+    </div>
+    <div class="bm-body" id="bmBody">
+      <p class="bm-subtitle">Fill in your details below and we'll get back to you within 24 hours to confirm your slot and schedule a discovery call.</p>
+      <div class="bm-packages">
+        <div class="bm-pkg">
+          <div class="bm-pkg-name">Corporate Production</div>
+          <div class="bm-pkg-price">$2,800<span>/qtr</span></div>
+          <div class="bm-pkg-items">2 brand films &middot; Executive profile &middot; 4 LinkedIn clips &middot; Team photoshoot &middot; 13-week calendar</div>
+        </div>
+        <div class="bm-pkg bm-pkg-featured">
+          <div class="bm-pkg-badge">Most Popular</div>
+          <div class="bm-pkg-name">Commercial &amp; Ads</div>
+          <div class="bm-pkg-price">$4,500<span>/qtr</span></div>
+          <div class="bm-pkg-items">Hero commercial &middot; 3 paid creatives &middot; Launch film &middot; 8 short-form cuts &middot; Campaign photos</div>
+        </div>
+        <div class="bm-pkg">
+          <div class="bm-pkg-name">Creator Package</div>
+          <div class="bm-pkg-price">$1,900<span>/qtr</span></div>
+          <div class="bm-pkg-items">2 YouTube productions &middot; 12 Reels/TikToks &middot; Brand photoshoot &middot; 12 thumbnails &middot; Calendar</div>
+        </div>
+      </div>
+      <form id="bookingForm" onsubmit="submitBooking(event)">
+        <div class="bm-row">
+          <div class="bm-field">
+            <label class="bm-label">First Name *</label>
+            <input class="bm-input" type="text" name="first_name" placeholder="Alexandre" required>
+          </div>
+          <div class="bm-field">
+            <label class="bm-label">Last Name *</label>
+            <input class="bm-input" type="text" name="last_name" placeholder="Dupont" required>
+          </div>
+        </div>
+        <div class="bm-row">
+          <div class="bm-field">
+            <label class="bm-label">Email Address *</label>
+            <input class="bm-input" type="email" name="email" placeholder="you@yourcompany.com" required>
+          </div>
+          <div class="bm-field">
+            <label class="bm-label">Phone Number</label>
+            <input class="bm-input" type="tel" name="phone" placeholder="+1 514 000 0000">
+          </div>
+        </div>
+        <div class="bm-field">
+          <label class="bm-label">Company / Brand Name *</label>
+          <input class="bm-input" type="text" name="company" placeholder="Your company name" required>
+        </div>
+        <div class="bm-row">
+          <div class="bm-field">
+            <label class="bm-label">Production Track *</label>
+            <select class="bm-select" name="track" id="bmTrackSelect" required>
+              <option value="">Select a track...</option>
+              <option value="Corporate Production — $2,800/quarter">Corporate Production — $2,800/qtr</option>
+              <option value="Commercial & Ad Content — $4,500/quarter">Commercial &amp; Ad Content — $4,500/qtr</option>
+              <option value="Creator Package — $1,900/quarter">Creator Package — $1,900/qtr</option>
+              <option value="Not sure yet — consultation">Not sure yet &mdash; I'd like a consultation</option>
+            </select>
+          </div>
+          <div class="bm-field">
+            <label class="bm-label">Which Quarter? *</label>
+            <select class="bm-select" name="quarter" required>
+              <option value="">Select a quarter...</option>
+              <option value="Q3 2026 — Jul–Sep">Q3 2026 &mdash; Jul&ndash;Sep</option>
+              <option value="Q4 2026 — Oct–Dec">Q4 2026 &mdash; Oct&ndash;Dec</option>
+              <option value="Q1 2027 — Jan–Mar">Q1 2027 &mdash; Jan&ndash;Mar</option>
+            </select>
+          </div>
+        </div>
+        <div class="bm-field">
+          <label class="bm-label">Tell us about your business &amp; goals</label>
+          <textarea class="bm-textarea" name="message" placeholder="What does your business do? What kind of content do you need? Any upcoming campaigns or launches?"></textarea>
+        </div>
+        <button type="submit" class="bm-submit" id="bmSubmit">Send My Brief &#x2192;</button>
+        <p class="bm-note">We respond within 24 hours &middot; Max 8 clients per quarter &middot; orioncontact8@gmail.com</p>
+      </form>
+    </div>
+    <div class="bm-success" id="bmSuccess" style="display:none;">
+      <div class="bm-success-icon">&#x2713;</div>
+      <h3>Brief Received.</h3>
+      <p>Thank you &mdash; we'll review your brief and reach out within 24 hours to discuss your slot and next steps.</p>
+      <p style="margin-top:16px;font-family:var(--mono);font-size:11px;color:var(--gold);">orioncontact8@gmail.com</p>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
